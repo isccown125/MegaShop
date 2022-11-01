@@ -1,0 +1,14 @@
+#alert {
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+  width: auto;
+  min-width: 100px;
+  padding: 10px;
+  background-color: greenyellow;
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
