@@ -101,7 +101,8 @@ class Shop extends Component {
     constructor() {
         super();
         this.products = [];
-        this.maxRenderedItems = 20;
+        this.maxRenderedItems = 25;
+        this.firstItem = 0;
     }
     addProduct(product) {
         this.products.push(product)
@@ -124,7 +125,7 @@ class Shop extends Component {
         const shop = document.querySelector('#shop');
         const productList = this.createElement('ul', { cssClasses: 'products' });
         this.products.forEach((el, index) => {
-            if (index <= this.maxRenderedItems) {
+            if (index >= 25 && index < this.maxRenderedItems+25) {
                 const item = this.createChild(productList, 'li', { cssClasses: 'product-item' }, { name: 'data-id', value: el.id.toString() })
                 const itemContent = this.createChild(item, 'div', { cssClasses: 'product-item__content' });
                 const header = this.createChild(itemContent, 'header', { cssClasses: 'product-item-header' })
@@ -152,6 +153,7 @@ class Basket extends Component {
     constructor() {
         super();
         this.items = [];
+        this.cost = 0;
     }
     add(product = { id: null, title: '', price: null }) {
         if (!product) {
@@ -166,36 +168,68 @@ class Basket extends Component {
         if (isNaN(id)) {
             return;
         }
-        console.log(id)
         const itemIndex = this.items.findIndex((el, index) => index === id)
-        console.log(renderedItem, renderedItemIndex)
-        if (renderedItem && itemIndex >= 0) {
+        if (itemIndex >= 0) {
             this.items.splice(itemIndex, 1)
-            this.renderedItems.splice(renderedItemIndex, 1)
-            console.log(this.items, this.renderedItems)
-            renderedItem.remove();
             return
         }
         return
     }
     render() {
-        if (checkNodeElement('.basket-products')) {
-            console.log('removed basket')
-            const basket = document.querySelector('.basket-products');
-            basket.remove();
-        }
         const basket = this.createElement('section', { id: 'basket' });
+        const titleBasket = this.createChild(basket ,'h2', {cssClasses:'basket-title'} )
         const productList = this.createChild(basket, 'ul', { cssClasses: 'basket-products' })
         this.items.forEach((el, index) => {
             const item = this.createChild(productList, 'li', { cssClasses: 'basket-product-item' }, { name: 'data-id', value: index.toString() })
+            const indexItem = this.createChild(item, 'p', { cssClasses: 'basket-product-item__index' });
             const title = this.createChild(item, 'p', { cssClasses: 'basket-product-item__title' });
-            const price = this.createChild(item, 'p', { cssClasses: 'basket-product-item__price' });
             const btnRemoveFromBasket = this.createChild(item, 'button', { cssClasses: 'basket-product-item__btn-remove' });
+            const price = this.createChild(item, 'p', { cssClasses: 'basket-product-item__price' });
+            indexItem.textContent = `${index}`;
             title.textContent = el.title;
             price.textContent = el.price + " $";
             btnRemoveFromBasket.textContent = 'remove';
         })
+        const cost = this.createChild(basket, 'p', {cssClasses: 'basket-products__cost'})
+
+
+        titleBasket.textContent = 'Basket'
+        cost.textContent = `Cost: ${this.cost} $`;
         document.body.prepend(basket)
+        
+    }
+    calculateCost(){
+        const priceItems = [];
+        this.items.map((element, index)=>{ 
+            priceItems.push(element.price)
+        })
+        if(priceItems.length > 0){
+            this.cost = priceItems.reduce((prev, curr)=> prev+=curr, 0)
+        } else {
+            this.cost = 0
+        }
+        
+        console.log(this.cost);
+        return this.cost;
+        
+    }
+    update() {
+        const productList = document.querySelector('.basket-products')
+        productList.textContent = '';
+        this.items.forEach((el, index) => {
+            const item = this.createChild(productList, 'li', { cssClasses: 'basket-product-item' }, { name: 'data-id', value: index.toString()})
+            const indexItem = this.createChild(item, 'p', { cssClasses: 'basket-product-item__index' });
+            const title = this.createChild(item, 'p', { cssClasses: 'basket-product-item__title' });
+            const price = this.createChild(item, 'p', { cssClasses: 'basket-product-item__price' });
+            const btnRemoveFromBasket = this.createChild(item, 'button', { cssClasses: 'basket-product-item__btn-remove' });
+            indexItem.textContent = `${index+1}`;
+            title.textContent = el.title;
+            price.textContent = el.price + " $";
+            btnRemoveFromBasket.textContent = 'remove';
+            
+        })
+        const cost = document.querySelector('.basket-products__cost')
+        cost.textContent = `Cost: ${this.cost} $`;
     }
 }
 
@@ -204,7 +238,7 @@ class Basket extends Component {
     const basket = new Basket();
     const result = await fetch('https://dummyjson.com/products?limit=100&skip=0')
     const res = await result.json();
-    res.products.forEach((value, index, array) => {
+    res.products.forEach((value) => {
         product.data = value
         shop1.addProduct(product.data);
     })
@@ -218,13 +252,14 @@ class Basket extends Component {
 
 
     cart.addEventListener('click', (event) => {
-        basket.render();
-        console.log(event.target)
         if (event.target.nodeName === 'BUTTON' && event.target.className === "basket-product-item__btn-remove") {
-            console.log(event.target.parentNode.dataset.id)
-            console.log(basket.remove(Number(event.target.parentNode.dataset.id)))
+            basket.remove(Number(event.target.parentNode.dataset.id))
+            basket.calculateCost();
+            basket.update();
+            
         }
     })
+
     renderedProductsList.addEventListener('click', (event) => {
         if (event.target.nodeName === 'BUTTON' && event.target.className === "product-item-footer__btn-add-to-cart") {
             const id = Number(event.target.parentNode.parentNode.parentNode.dataset.id);
@@ -235,7 +270,8 @@ class Basket extends Component {
                     title: product.title,
                     price: product.price,
                 });
-                basket.render();
+                basket.calculateCost()
+                basket.update()
             }
 
         }
