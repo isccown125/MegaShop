@@ -38,7 +38,6 @@ const checkNodeElement = (value) => {
     return document.body.contains(el);
 }
 
-
 class Component {
     createElement(tag, selectors = { id: '', cssClasses: '' }, attributes = { name: '', value: '' }) {
         const rootElement = document.createElement(tag);
@@ -96,10 +95,6 @@ class FactoryProduct {
     }
 }
 
-
-
-
-
 class Shop extends Component {
     constructor() {
         super();
@@ -119,8 +114,6 @@ class Shop extends Component {
             return this.products.find((el) => el.id === id);
         }
     }
-
-
     render() {
         return this.createChild(rootElementApp, 'section', { id: 'shop' });
     }
@@ -243,7 +236,6 @@ class Basket extends Component {
         titleBasket.textContent = 'Basket'
         cost.textContent = `Total cost: ${this.cost} $`;
         rootElementApp.append(basket)
-
     }
     update() {
         const productList = document.querySelector('.basket-products')
@@ -263,15 +255,11 @@ class Basket extends Component {
             price.textContent = `price ${el.price} $`;
             btnAddProduct.textContent = 'add'
             btnRemoveFromBasket.textContent = 'remove';
-
         })
-
-
         const cost = document.querySelector('.basket-products__cost')
         cost.textContent = `Total cost: ${this.cost} $`;
     }
 }
-
 (async () => {
     const product = new FactoryProduct();
     const shop1 = new Shop();
@@ -284,13 +272,11 @@ class Basket extends Component {
         shop1.addProduct(product.data);
     })
 
-
     const cos = shop1.render();
     shop1.renderProducts(shop1.products, cos);
     const cart = document.querySelector('#basket');
     const renderedProductsList = document.querySelector('[name|=product-list]');
     renderedProductsList.addEventListener('click', (event) => {
-
         if (event.target.nodeName === 'BUTTON' && event.target.className.includes("product-item-footer__btn-add-to-cart")) {
             console.log(event.target)
             const id = Number(event.target.parentNode.parentNode.parentNode.dataset.id);
@@ -305,7 +291,6 @@ class Basket extends Component {
                 basket.calculateCost()
                 basket.update()
             }
-
         }
     })
     cart.addEventListener('click', (event) => {
@@ -313,30 +298,6 @@ class Basket extends Component {
             basket.remove(Number(event.target.parentNode.parentNode.dataset.id))
             basket.calculateCost();
             basket.update();
-
         }
     })
-
-
-
-
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
