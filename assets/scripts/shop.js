@@ -25,6 +25,7 @@
 // alert.error('erorr')
 
 const checkNodeElement = (value) => {
+
     if (!value || value.length === 0) {
         return;
     }
@@ -101,8 +102,10 @@ class Shop extends Component {
     constructor() {
         super();
         this.products = [];
+        this.page = 1;
         this.maxRenderedItems = 25;
         this.firstItem = 0;
+        this.lastItem = null;
     }
     addProduct(product) {
         this.products.push(product)
@@ -118,14 +121,16 @@ class Shop extends Component {
         return this.createChild(document.body, 'section', { id: 'shop' });
     }
     renderProducts() {
-        if (checkNodeElement('#products')) {
-            const productList = document.querySelector('#products')
+        if (checkNodeElement('.products')) {
+            const productList = document.querySelector('.products')
+            const pagination = document.querySelector('.pagination')
             productList.remove();
+            pagination.remove();
         }
         const shop = document.querySelector('#shop');
         const productList = this.createElement('ul', { cssClasses: 'products' });
         this.products.forEach((el, index) => {
-            if (index >= 25 && index < this.maxRenderedItems+25) {
+            if (index >= this.firstItem && index < (this.maxRenderedItems * this.page)) {
                 const item = this.createChild(productList, 'li', { cssClasses: 'product-item' }, { name: 'data-id', value: el.id.toString() })
                 const itemContent = this.createChild(item, 'div', { cssClasses: 'product-item__content' });
                 const header = this.createChild(itemContent, 'header', { cssClasses: 'product-item-header' })
@@ -134,18 +139,37 @@ class Shop extends Component {
                 const img = this.createChild(itemGroupImg, 'img', { cssClasses: 'product-item-images__img' })
                 const footer = this.createChild(itemContent, 'footer', { cssClasses: 'product-item__footer' })
                 const price = this.createChild(footer, 'p', { cssClasses: 'product-item-footer__price' })
-                const desctiption = this.createChild(footer, 'p', { cssClasses: 'product-item-footer__description' })
                 const addToCartBtn = this.createChild(footer, 'button', { cssClasses: 'product-item-footer__btn-add-to-cart' })
                 title.textContent = el.title;
                 img.src = el.thumbnail;
                 price.textContent = `${el.price} $`
-                desctiption.textContent += `${el.description}`
                 addToCartBtn.textContent = 'Add to cart'
             } else {
                 return;
             }
         })
-        shop.append(productList);
+        shop.prepend(productList);
+        this.pagination();
+    }
+    pagination() {
+        const shop = document.querySelector('#shop');
+        const pagination = this.createChild(shop, 'div', { cssClasses: 'pagination' })
+        for (let i = 0; i <= this.products.length; i += this.maxRenderedItems) {
+            let page
+            if (i !== 0) {
+                page = (i / this.maxRenderedItems);
+                const paginItem = this.createChild(pagination, 'span', { cssClasses: 'pagination-item' }, { name: 'data-page', value: `${page}` })
+                paginItem.textContent = page;
+            }
+        }
+        pagination.addEventListener('click', (event) => {
+            if (event.target.className === 'pagination-item') {
+                this.page = event.target.dataset.page;
+                this.lastItem = this.page * this.maxRenderedItems;
+                this.firstItem = this.lastItem - this.maxRenderedItems;
+                this.renderProducts();
+            }
+        })
     }
 }
 
@@ -177,7 +201,7 @@ class Basket extends Component {
     }
     render() {
         const basket = this.createElement('section', { id: 'basket' });
-        const titleBasket = this.createChild(basket ,'h2', {cssClasses:'basket-title'} )
+        const titleBasket = this.createChild(basket, 'h2', { cssClasses: 'basket-title' })
         const productList = this.createChild(basket, 'ul', { cssClasses: 'basket-products' })
         this.items.forEach((el, index) => {
             const item = this.createChild(productList, 'li', { cssClasses: 'basket-product-item' }, { name: 'data-id', value: index.toString() })
@@ -190,46 +214,46 @@ class Basket extends Component {
             price.textContent = el.price + " $";
             btnRemoveFromBasket.textContent = 'remove';
         })
-        const cost = this.createChild(basket, 'p', {cssClasses: 'basket-products__cost'})
+        const cost = this.createChild(basket, 'p', { cssClasses: 'basket-products__cost' })
 
 
         titleBasket.textContent = 'Basket'
-        cost.textContent = `Cost: ${this.cost} $`;
+        cost.textContent = `Total Cost: ${this.cost} $`;
         document.body.prepend(basket)
-        
+
     }
-    calculateCost(){
+    calculateCost() {
         const priceItems = [];
-        this.items.map((element, index)=>{ 
+        this.items.map((element, index) => {
             priceItems.push(element.price)
         })
-        if(priceItems.length > 0){
-            this.cost = priceItems.reduce((prev, curr)=> prev+=curr, 0)
+        if (priceItems.length > 0) {
+            this.cost = priceItems.reduce((prev, curr) => prev += curr, 0)
         } else {
             this.cost = 0
         }
-        
+
         console.log(this.cost);
         return this.cost;
-        
+
     }
     update() {
         const productList = document.querySelector('.basket-products')
         productList.textContent = '';
         this.items.forEach((el, index) => {
-            const item = this.createChild(productList, 'li', { cssClasses: 'basket-product-item' }, { name: 'data-id', value: index.toString()})
+            const item = this.createChild(productList, 'li', { cssClasses: 'basket-product-item' }, { name: 'data-id', value: index.toString() })
             const indexItem = this.createChild(item, 'p', { cssClasses: 'basket-product-item__index' });
             const title = this.createChild(item, 'p', { cssClasses: 'basket-product-item__title' });
             const price = this.createChild(item, 'p', { cssClasses: 'basket-product-item__price' });
             const btnRemoveFromBasket = this.createChild(item, 'button', { cssClasses: 'basket-product-item__btn-remove' });
-            indexItem.textContent = `${index+1}`;
+            indexItem.textContent = `${index + 1}`;
             title.textContent = el.title;
             price.textContent = el.price + " $";
             btnRemoveFromBasket.textContent = 'remove';
-            
+
         })
         const cost = document.querySelector('.basket-products__cost')
-        cost.textContent = `Cost: ${this.cost} $`;
+        cost.textContent = `Total Cost: ${this.cost} $`;
     }
 }
 
@@ -256,7 +280,7 @@ class Basket extends Component {
             basket.remove(Number(event.target.parentNode.dataset.id))
             basket.calculateCost();
             basket.update();
-            
+
         }
     })
 

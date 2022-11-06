@@ -1,4 +1,4 @@
-body{
+body {
   margin: 0;
   padding: 0;
 }
@@ -17,7 +17,7 @@ body{
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
 }
-#basket{
+#basket {
   background-color: gray;
   display: flex;
   flex-direction: column;
@@ -26,19 +26,19 @@ body{
   margin: 0;
   padding: 0;
 }
-.basket-products{
-  display:  flex;
+.basket-products {
+  display: flex;
   gap: 2%;
   flex-direction: column;
   height: 400px;
   width: 100%;
   box-sizing: border-box;
   overflow-y: auto;
-  list-style:  none;
+  list-style: none;
   margin: 0;
   padding: 0;
 }
-.basket-product-item{
+.basket-product-item {
   padding: 5px;
   margin-inline: 1%;
   display: flex;
@@ -47,38 +47,77 @@ body{
   background-color: aqua;
   box-sizing: border-box;
 }
-.basket-product-item__btn-remove{
-}
 
-#shop{
+#shop {
   display: flex;
   width: 100%;
+  flex-direction: column;
 }
 
-.products{
+.products {
   display: grid;
   justify-content: center;
+  justify-items: center;
   gap: 1% 2%;
   width: 100%;
   grid-auto-flow: dense;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1em));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1em));
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.product-item{
+.product-item {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  min-width: 230px;
+  min-height: 300px;
+  padding: 10px 5px;
+  box-sizing: content-box;
+  transition: 0.2s;
+  overflow: hidden;
 }
-.product-item-images{
-  display: flex;
-  width: 300px;
+.product-item:hover {
+  background-color: aquamarine;
+  z-index: 3;
+  transition: 0.5s;
+}
+.product-item__content {
+  display: block;
+  height: 400px;
 }
 
-.product-item-images__img{
+.product-item-header__title {
+  color: rgb(75, 75, 75);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  margin: 3px 0;
+}
+.product-item-images {
   display: flex;
-  width: 300px;
-  height: 300px;
+  width: 100%;
+}
+
+.product-item-images__img {
+  height: 200px;
+  width: 100%;
   object-fit: cover;
+  object-position: center;
+}
+.product-item__footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: max-content;
+}
+.pagination {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  justify-content: center;
+  background-color: antiquewhite;
+  gap: 1px;
+}
+.pagination-item {
+  padding: 10px;
+  background-color: white;
 }
