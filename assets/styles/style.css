@@ -1,5 +1,37 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&family=Public+Sans:ital,wght@0,100;0,400;0,900;1,100;1,400;1,900&display=swap");
 
+:root{
+  --primary-color: hsl(0, 0%, 93%);
+  --primary-color-darken: hsl(0, 0%, 70%);
+  --secondary-color: hsl(145, 100%, 25%);
+  --main-header-stick-color: rgb(0, 0, 0);
+  --logo-first-letter: red;
+  --font-color-primary: rgb(75, 75, 75);
+  --font-color-secondary: white;
+  --border-color-primary: white;
+  --border-color-secondary: rgb(75, 75, 75);
+  --spacer-color: rgb(75, 75, 75);
+  --transparency: rgba(0,0,0,0);
+  --muted-color:hsl(0, 0%, 40%);
+  --product-border-color: hsl(0, 0%, 85%);
+}
+.dark-orange{  
+  --primary-color: hsl(31, 100%, 30%);
+  --primary-color-darken: hsl(31, 100%, 20%);
+  --secondary-color: hsl(0, 0%, 10%);
+  --main-header-stick-color: hsl(0, 0%, 12%);
+  --logo-first-letter: red;
+  --font-color-primary: hsl(0, 0%, 18%);
+  --font-color-secondary: hsl(0, 0%, 80%);
+  --border-color-primary: hsl(0, 0%, 20%);
+  --border-color-secondary: hsl(31, 100%, 20%);
+  --spacer-color: hsl(0, 0%, 10%);
+  --transparency: rgba(0,0,0,0);
+  --muted-color:hsl(0, 0%, 60%);
+  --product-border-color: hsl(31, 100%, 20%);
+}
+
+
 body {
   margin: 0;
   padding: 0;
@@ -12,7 +44,7 @@ body {
   top: 0;
   display: flex;
   width: 100%;
-  background-color: hsl(0, 0%, 98%);
+  background-color: var(--primary-color);
   z-index: 1000;
   min-height: 80px;
   box-sizing: border-box;
@@ -26,43 +58,45 @@ body {
   transition: 0.3s;
 }
 .main-header__content > h1::first-letter {
-  color: red !important;
+  color: var(--logo-first-letter) !important;
 }
 .main-header__stick-top {
-  background-color: rgb(0, 0, 0);
-  color: white;
+  background-color: var(--main-header-stick-color);
+  color: var(--font-color-secondary);
   position: fixed;
 }
 .btn-style-basket {
-  background-color: white;
+  background-color: var(--primary-color);
   padding: 0 10px;
   border-radius: 10px;
   font-weight: bold;
-  color: rgb(75, 75, 75);
+  color: var(--font-color-primary);
   font-family: "JetBrains Mono", monospace;
-  border: 2px solid rgb(75, 75, 75);
+  border: 2px solid var(--border-color-primary);
   transition: 0.3s;
 }
 
 .btn-style-shop {
-  background-color: white;
-  border: 2px solid rgb(0, 184, 76);
+  background-color: var(--primary-color);
+  border: 2px solid var(--secondary-color);
   border-radius: 15px;
   word-spacing: -3px;
   padding: 5px 10px;
-  color: rgb(75, 75, 75);
+  color: var(--font-color-primary);
   font-family: "JetBrains Mono", monospace;
   transition: 0.3s;
 }
 .btn-style-basket:hover {
-  background-color: rgb(0, 184, 76);
-  color: white;
-  border-color: rgb(255, 255, 255);
+  cursor: pointer;
+  background-color: var(--font-color-primary);
+  color: var(--font-color-secondary);
+  border-color: var(--border-color-secondary);
 }
 .btn-style-shop:hover {
-  background-color: rgb(0, 184, 76);
-  color: white;
-  border-color: rgb(0, 184, 76);
+  cursor: pointer;
+  background-color: var(--secondary-color);
+  color: var(--font-color-secondary);
+  border-color: var(--border-color-secondary);
 }
 
 #alert {
@@ -80,8 +114,8 @@ body {
   text-align: center;
 }
 #basket {
-  background-color: rgb(255, 255, 255);
-  border: 2px solid gray;
+  background-color: var(--primary-color);
+  border: 2px solid var(--border-color-secondary);
   border-left: 0;
   border-right: 0;
   display: flex;
@@ -119,26 +153,27 @@ body {
 }
 
 .show {
-  background-color: rgb(0, 184, 76) !important;
-  border: 1px solid white !important;
+  background-color: var(--secondary-color) !important;
+  border: 1px solid var(--border-color-primary) !important;
   animation: rotateBtn 0.3s 1 forwards linear;
 }
 .show::after {
-  color: white !important;
+  color: var(--font-color-secondary) !important;
 }
 .hide {
   animation: rotateBtnReverse 0.3s 1 forwards linear;
 }
 .hide:hover {
-  background-color: hsl(145, 100%, 36%);
-  color: white !important;
+  
+  background-color: var(--secondary-color);
+  color: var(--font-color-secondary) !important;
   transition: 0.5s;
 }
 
 @keyframes rotateBtn {
   100% {
     rotate: 180deg;
-    background-color: rgb(0, 184, 76) !important;
+    background-color: var(--secondary-color) !important;
   }
 }
 @keyframes rotateBtnReverse {
@@ -155,14 +190,14 @@ body {
   justify-content: space-between;
   align-items: center;
   z-index: 5;
-  background-color: white;
+  background-color: var(--primary-color);
 }
 .basket-spacer {
   display: flex;
   margin: 0 5px;
   height: 5px;
   width: 90%;
-  background-color: gray;
+  background-color: var(--spacer-color);
 }
 .btn-style-basket-change {
   display: flex;
@@ -173,8 +208,8 @@ body {
   width: 35px;
   border-radius: 100%;
   font-size: 30px;
-  border: 2px solid grey;
-  background-color: rgba(0, 184, 77, 0);
+  border: 2px solid var(--border-color-secondary);
+  background-color: var(--transparency);
   font-family: "Courier New", Courier, monospace;
   text-align: center;
   vertical-align: center;
@@ -187,7 +222,10 @@ body {
   transform: translateY(100%);
   position: absolute;
   height: 5px;
-  color: grey;
+  color: var(--font-color-primary);
+}
+.btn-style-basket-change{
+  cursor: pointer;
 }
 .basket-product-btn__container .basket-products {
   display: none;
@@ -208,11 +246,11 @@ body {
   display: flex;
   align-items: center;
   gap: 2%;
-  background-color: rgb(0, 184, 76);
-  border: 3px solid grey;
+  background-color: var(--secondary-color);
+  border: 3px solid var(--border-color-secondary);
   box-sizing: border-box;
   border-radius: 10px;
-  color: white;
+  color: var(--font-color-secondary);
   flex-wrap: wrap;
   width: clamp(200px, 90vw, 100%);
   box-sizing: border-box;
@@ -238,7 +276,7 @@ body {
   display: flex;
   width: 100%;
   flex-direction: column;
-  background-color: rgb(0, 184, 76);
+  background-color: var(--secondary-color);
   box-sizing: border-box;
   padding: 10px 0;
 }
@@ -267,11 +305,11 @@ body {
   box-sizing: content-box;
   transition: 0.2s;
   overflow: hidden;
-  background-color: white;
-  border: 3px solid hsl(0, 0%, 80%);
+  background-color: var(--primary-color);
+  border: 3px solid var(--product-border-color);
 }
 .product-item:hover {
-  background-color: hsl(0, 0%, 98%);
+  background-color: var(--primary-color-darken);
   z-index: 3;
   transition: 0.2s;
 }
@@ -291,7 +329,7 @@ body {
 .product-item-header__title {
   display: flex;
   width: 80%;
-  color: rgb(75, 75, 75);
+  color: var(--font-color-primary);
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   margin: 3px 0;
@@ -329,7 +367,7 @@ body {
 }
 .pagination-items {
   display: flex;
-  border: 3px solid hsl(120, 100%, 25%);
+  border: 3px solid var(--border-color-secondary);
 }
 .pagination-item {
   display: flex;
@@ -337,20 +375,25 @@ body {
   align-items: center;
   padding: 10px;
   width: auto;
-  border: 1px solid gray;
-  background-color: white;
+  border: 1px solid var(--font-color-primary);
+  background-color: var(--primary-color);
   transition: 0.2s;
 }
 .pagination-item:hover {
   cursor: pointer;
-  background-color: hsl(0, 0%, 80%);
+  opacity: 0.5;
 }
 
 .first-footer {
+  display: flex;
   position: relative;
   bottom: 0;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  height: 100%;
+  background-color: var(--primary-color);
 }
 .first-footer > h6 {
-  color: hsl(0, 0%, 40%);
+  color: var(--muted-color);
 }
