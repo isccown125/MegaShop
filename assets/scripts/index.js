@@ -7,6 +7,7 @@ import { Shop } from './shop/shop.js';
     const product = new FactoryProduct();
     const shop1 = new Shop();
     const basket = new Basket();
+    const loginPanel = new LoginPanel();
     basket.render();
     const result = await fetch('https://dummyjson.com/products?limit=100&skip=0')
     const res = await result.json();
@@ -16,12 +17,12 @@ import { Shop } from './shop/shop.js';
     })
 
     const cos = shop1.render();
-    shop1.renderProducts(shop1.products, cos);
+    shop1.renderProducts();
     const cart = document.querySelector('#basket');
     const renderedProductsList = document.querySelector('[name|=product-list]');
+
     renderedProductsList.addEventListener('click', (event) => {
         if (event.target.nodeName === 'BUTTON' && event.target.className.includes("product-item-footer__btn-add-to-cart")) {
-            console.log(event.target)
             const id = Number(event.target.parentNode.parentNode.parentNode.dataset.id);
             const product = shop1.findById(id);
             if (product) {
@@ -43,7 +44,10 @@ import { Shop } from './shop/shop.js';
             basket.update();
         }
     })
+    const loginBtn = loginPanel.buttonRender();
+    loginBtn.addEventListener('click', () => {
+        loginPanel.render();
+    })
 
-    const loginPanel = new LoginPanel();
-    loginPanel.render();
+
 })();

@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&family=Public+Sans:ital,wght@0,100;0,400;0,900;1,100;1,400;1,900&display=swap");
 
-:root{
+:root {
   --primary-color: hsl(0, 0%, 93%);
   --primary-color-darken: hsl(0, 0%, 70%);
   --secondary-color: hsl(145, 100%, 25%);
@@ -11,11 +11,11 @@
   --border-color-primary: white;
   --border-color-secondary: rgb(75, 75, 75);
   --spacer-color: rgb(75, 75, 75);
-  --transparency: rgba(0,0,0,0);
-  --muted-color:hsl(0, 0%, 40%);
+  --transparency: rgba(0, 0, 0, 0);
+  --muted-color: hsl(0, 0%, 40%);
   --product-border-color: hsl(0, 0%, 85%);
 }
-.dark-orange{  
+.dark-orange {
   --primary-color: hsl(31, 100%, 30%);
   --primary-color-darken: hsl(31, 100%, 20%);
   --secondary-color: hsl(0, 0%, 10%);
@@ -26,11 +26,10 @@
   --border-color-primary: hsl(0, 0%, 20%);
   --border-color-secondary: hsl(31, 100%, 20%);
   --spacer-color: hsl(0, 0%, 10%);
-  --transparency: rgba(0,0,0,0);
-  --muted-color:hsl(0, 0%, 60%);
+  --transparency: rgba(0, 0, 0, 0);
+  --muted-color: hsl(0, 0%, 60%);
   --product-border-color: hsl(31, 100%, 20%);
 }
-
 
 body {
   margin: 0;
@@ -38,7 +37,7 @@ body {
   scroll-behavior: smooth;
   font-family: "Public Sans", sans-serif;
 }
-.backdrop{
+.backdrop {
   display: none;
   position: fixed;
   width: 100%;
@@ -48,6 +47,15 @@ body {
   background-color: rgba(51, 51, 51, 0.671);
   backdrop-filter: blur(5px);
   z-index: 1001;
+}
+.close-modal-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5em;
+  margin-left: auto;
+}
+.close-modal-btn:hover {
+  color: green;
 }
 
 .main-header {
@@ -64,6 +72,8 @@ body {
 }
 .main-header__content {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   padding: 5px 10px;
   transition: 0.3s;
@@ -75,16 +85,8 @@ body {
   background-color: var(--main-header-stick-color);
   color: var(--font-color-secondary);
   position: fixed;
-}
-.btn-style-basket {
-  background-color: var(--primary-color);
-  padding: 0 10px;
-  border-radius: 10px;
-  font-weight: bold;
-  color: var(--font-color-primary);
-  font-family: "JetBrains Mono", monospace;
-  border: 2px solid var(--border-color-primary);
-  transition: 0.3s;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .btn-style-shop {
@@ -97,15 +99,25 @@ body {
   font-family: "JetBrains Mono", monospace;
   transition: 0.3s;
 }
-.btn-style-basket:hover {
-  cursor: pointer;
-  background-color: var(--font-color-primary);
-  color: var(--font-color-secondary);
-  border-color: var(--border-color-secondary);
-}
 .btn-style-shop:hover {
   cursor: pointer;
   background-color: var(--secondary-color);
+  color: var(--font-color-secondary);
+  border-color: var(--border-color-secondary);
+}
+.btn-style-basket {
+  background-color: var(--primary-color);
+  padding: 0 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: var(--font-color-primary);
+  font-family: "JetBrains Mono", monospace;
+  border: 2px solid var(--border-color-primary);
+  transition: 0.3s;
+}
+.btn-style-basket:hover {
+  cursor: pointer;
+  background-color: var(--font-color-primary);
   color: var(--font-color-secondary);
   border-color: var(--border-color-secondary);
 }
@@ -137,48 +149,92 @@ body {
   padding: 10px;
   z-index: 2;
 }
-.basket-products {
-  transition: 0.3s;
+.basket-main {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  max-height: 450px;
+  width: 100%;
   overflow-y: auto;
+  max-height: 450px;
   box-sizing: border-box;
+  padding: 10px;
+  z-index: 2;
+}
+.basket-products {
+  display: none;
+  transition: 1s;
+  width: 100%;
+  flex-direction: column;
+  box-sizing: border-box;
+  align-items: center;
   padding: 0;
   margin: 0;
+  height: 0;
+  gap: 5px;
+}
+.basket-animation-show-products {
+  display: flex;
+  height: 0;
+  animation-name: showProducts;
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+.basket-animation-hide-products {
+  display: flex;
+  animation-name: hideProducts;
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
 }
 
 .basket-show-products {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  animation: showProducts 0.5s forwards linear;
   transition: 0.3s;
   z-index: -2;
+  height: 450px;
 }
 .basket-hide-products {
   display: none;
+  height: 0;
+}
+@keyframes showProducts {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 450px;
+  }
+}
+@keyframes hideProducts {
+  0% {
+    height: 450px;
+  }
+  100% {
+    height: 0px;
+  }
 }
 
 .show {
   background-color: var(--secondary-color) !important;
   border: 1px solid var(--border-color-primary) !important;
-  animation: rotateBtn 0.3s 1 forwards linear;
+  animation: rotateBtn 0.1s 1 forwards linear;
+  color: var(--font-color-secondary);
 }
-.show::after {
-  color: var(--font-color-secondary) !important;
+.show:hover {
+  cursor: pointer;
+  color: var(--font-color-primary);
 }
 .hide {
-  animation: rotateBtnReverse 0.3s 1 forwards linear;
+  animation: rotateBtnReverse 0.1s 1 forwards linear;
+  color: black;
 }
 .hide:hover {
-  
   background-color: var(--secondary-color);
-  color: var(--font-color-secondary) !important;
-  transition: 0.5s;
+  color: var(--font-color-secondary);
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 @keyframes rotateBtn {
@@ -195,6 +251,16 @@ body {
     rotate: 0deg;
   }
 }
+
+.basket-empty {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: 150%;
+}
+
 .basket-header {
   display: flex;
   width: 100%;
@@ -211,7 +277,7 @@ body {
   background-color: var(--spacer-color);
 }
 .btn-style-basket-change {
-  display: flex;
+  display: block;
   position: relative;
   justify-content: center;
   align-items: center;
@@ -222,21 +288,7 @@ body {
   border: 2px solid var(--border-color-secondary);
   background-color: var(--transparency);
   font-family: "Courier New", Courier, monospace;
-  text-align: center;
-  vertical-align: center;
   transition: 0.3;
-}
-.btn-style-basket-change::after {
-  content: "^";
-  display: block;
-  top: 0;
-  transform: translateY(100%);
-  position: absolute;
-  height: 5px;
-  color: var(--font-color-primary);
-}
-.btn-style-basket-change{
-  cursor: pointer;
 }
 .basket-product-btn__container .basket-products {
   display: none;
@@ -290,40 +342,35 @@ body {
   background-color: var(--secondary-color);
   box-sizing: border-box;
   padding: 10px 0;
+  min-height: max-content;
 }
 
 .products {
-  display: grid;
+  display: flex;
   justify-content: center;
   justify-items: center;
-  gap: 2%;
+  gap: 20px;
   width: 100%;
-  grid-auto-flow: dense;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1em));
   list-style: none;
   margin: 20px 0;
-  padding: 0;
+  box-sizing: border-box;
+  padding: 0 10px;
+  flex-wrap: wrap;
 }
 .product-item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  width: 100%;
-  min-height: 300px;
+  width: clamp(200px, 80vw, 300px);
+  height: 400px;
   padding: 10px 5px;
-  box-sizing: content-box;
+  box-sizing: border-box;
   transition: 0.2s;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
   background-color: var(--primary-color);
   border: 3px solid var(--product-border-color);
 }
-.product-item:hover {
-  background-color: var(--primary-color-darken);
-  z-index: 3;
-  transition: 0.2s;
-}
+
 .product-item__content {
   display: flex;
   flex-direction: column;
