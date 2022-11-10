@@ -37,6 +37,11 @@ body {
   scroll-behavior: smooth;
   font-family: "Public Sans", sans-serif;
 }
+#root-app {
+  max-width: 1920px;
+  box-sizing: border-box;
+  margin: auto;
+}
 .backdrop {
   display: none;
   position: fixed;
@@ -74,6 +79,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1920px;
+  margin-inline: auto;
   width: 100%;
   padding: 5px 10px;
   transition: 0.3s;
@@ -334,6 +341,12 @@ body {
   margin: 1em;
   margin-left: auto;
 }
+.basket-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+}
 
 #shop {
   display: flex;
@@ -425,6 +438,7 @@ body {
 }
 .pagination-items {
   display: flex;
+  gap: 1px;
   border: 3px solid var(--border-color-secondary);
 }
 .pagination-item {
@@ -432,12 +446,26 @@ body {
   justify-content: center;
   align-items: center;
   padding: 10px;
-  width: auto;
+  width: 10px;
+  border: 1px solid var(--font-color-primary);
+  background-color: var(--primary-color);
+  transition: 0.2s;
+}
+.pagination-item__btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  width: 10px;
   border: 1px solid var(--font-color-primary);
   background-color: var(--primary-color);
   transition: 0.2s;
 }
 .pagination-item:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+.pagination-item__btn:hover {
   cursor: pointer;
   opacity: 0.5;
 }

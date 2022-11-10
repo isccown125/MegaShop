@@ -1,3 +1,5 @@
+import { checkNodeElement } from "../utils/helperFunctions.js";
+
 const mainHeader = document.querySelector('.main-header__content');
 const btnChangeBasketVisibility = document.querySelector('.btn-style-basket-change');
 const basketProducts = document.querySelector('.basket-products');
@@ -59,6 +61,8 @@ const btnChangeBasketVisiHandler = () => {
 
 }
 
+if (checkNodeElement(btnChangeBasketVisibility)) {
+    btnChangeBasketVisibility.addEventListener('click', btnChangeBasketVisiHandler)
+    window.addEventListener('scroll', mainHeaderHandler);
+}
 
-btnChangeBasketVisibility.addEventListener('click', btnChangeBasketVisiHandler)
-window.addEventListener('scroll', mainHeaderHandler);
